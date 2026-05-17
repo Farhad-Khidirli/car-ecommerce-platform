@@ -1,0 +1,25 @@
+server:
+  port: ${API_PORT:8080}
+
+spring:
+  application:
+    name: marketplace-api
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:marketplace}
+    username: ${POSTGRES_USER:marketplace}
+    password: ${POSTGRES_PASSWORD:marketplace}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
