@@ -3,8 +3,8 @@ create table app_user (
     email varchar(255) not null unique,
     phone varchar(64),
     display_name varchar(160) not null,
-    created_at timestamptz not null default now(),
-    updated_at timestamptz not null default now()
+    created_at timestamp with time zone not null default now(),
+    updated_at timestamp with time zone not null default now()
 );
 
 create table category (
@@ -33,9 +33,9 @@ create table listing (
     price_currency char(3) not null default 'AZN',
     status varchar(40) not null,
     listing_type varchar(40) not null,
-    created_at timestamptz not null default now(),
-    updated_at timestamptz not null default now(),
-    published_at timestamptz
+    created_at timestamp with time zone not null default now(),
+    updated_at timestamp with time zone not null default now(),
+    published_at timestamp with time zone
 );
 
 create index idx_listing_category on listing(category_id);
