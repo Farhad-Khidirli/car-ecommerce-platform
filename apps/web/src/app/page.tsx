@@ -1,20 +1,24 @@
 import { Building2, CarFront, PackageSearch } from "lucide-react";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 const sections = [
   {
     title: "Vehicles",
     description: "Cars, motorcycles, commercial vehicles, and parts.",
+    href: "/vehicles",
     icon: CarFront
   },
   {
     title: "Real estate",
     description: "Apartments, houses, offices, rent, and sale listings.",
+    href: "/real-estate",
     icon: Building2
   },
   {
     title: "Goods",
     description: "Electronics, furniture, fashion, hobby items, and more.",
+    href: "/goods",
     icon: PackageSearch
   }
 ];
@@ -45,11 +49,12 @@ export default function Home() {
 
       <section className={styles.grid} aria-label="Marketplace sections">
         {sections.map((section) => (
-          <article className={styles.card} key={section.title}>
+          <Link className={styles.card} href={section.href} key={section.title}>
             <section.icon aria-hidden="true" size={28} />
             <h2>{section.title}</h2>
             <p>{section.description}</p>
-          </article>
+            <span>View listings</span>
+          </Link>
         ))}
       </section>
     </main>
