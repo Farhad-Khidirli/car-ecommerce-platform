@@ -19,16 +19,30 @@ docs/        Product and architecture notes
 infra/       Local infrastructure and deployment helpers
 ```
 
-## First Local Steps
+## Run With Docker
 
 1. Copy `.env.example` to `.env`.
-2. Start PostgreSQL:
+2. Build and start the full stack:
 
    ```bash
-   docker compose up -d postgres
+   docker compose up --build
    ```
 
-3. Start the backend from `apps/api`.
-4. Start the frontend from `apps/web`.
+3. Open the app:
+
+   - Web: http://localhost:3000
+   - API health: http://localhost:8080/api/health
+
+4. Stop the stack:
+
+   ```bash
+   docker compose down
+   ```
+
+5. Stop the stack and remove the PostgreSQL volume:
+
+   ```bash
+   docker compose down -v
+   ```
 
 The backend is intentionally organized by business domains so vehicles, real estate, and general goods can grow without becoming one large tangled package.
