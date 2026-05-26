@@ -30,7 +30,7 @@ create table listing (
     title varchar(220) not null,
     description text,
     price_amount numeric(14, 2),
-    price_currency char(3) not null default 'AZN',
+    price_currency varchar(3) not null default 'AZN',
     status varchar(40) not null,
     listing_type varchar(40) not null,
     created_at timestamp with time zone not null default now(),

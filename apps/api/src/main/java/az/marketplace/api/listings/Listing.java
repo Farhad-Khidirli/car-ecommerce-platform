@@ -37,7 +37,7 @@ public class Listing {
     @Column(name = "price_amount")
     private BigDecimal priceAmount;
 
-    @Column(name = "price_currency", columnDefinition = "char(3)")
+    @Column(name = "price_currency", length = 3)
     private String priceCurrency = "AZN";
 
     @Enumerated(EnumType.STRING)
