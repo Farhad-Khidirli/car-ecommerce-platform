@@ -28,6 +28,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-marketplace}
       POSTGRES_USER: ${POSTGRES_USER:-marketplace}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-marketplace}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin12345}
     ports:
       - "${API_PORT:-8080}:8080"
     depends_on:

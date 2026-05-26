@@ -1,0 +1,67 @@
+.shell {
+  width: min(1040px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 38px 0 56px;
+}
+
+.brand {
+  font-weight: 800;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.panel {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.kicker {
+  margin: 0;
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.panel h1,
+.panel h2 {
+  margin: 0 0 8px;
+}
+
+.panel input {
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 12px;
+}
+
+.panel button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--brand);
+  color: white;
+  font-weight: 800;
+}
+
+.note {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

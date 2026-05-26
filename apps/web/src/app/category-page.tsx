@@ -57,23 +57,25 @@ export function CategoryPageView({ category }: CategoryPageViewProps) {
         <div className={styles.grid}>
           {category.listings.map((listing) => (
             <article className={styles.card} key={listing.title}>
-              <div className={styles.imageWrap}>
-                <img alt="" src={listing.image} />
-                <span className={styles.badge}>{listing.badge}</span>
-              </div>
-              <div className={styles.cardBody}>
-                <div className={styles.cardTop}>
-                  <h3>{listing.title}</h3>
-                  <span className={styles.price}>{listing.price}</span>
+              <Link href={`/listings/${listing.id}`}>
+                <div className={styles.imageWrap}>
+                  <img alt="" src={listing.image} />
+                  <span className={styles.badge}>{listing.badge}</span>
                 </div>
-                <div className={styles.meta}>
-                  <span>{listing.location}</span>
-                  {listing.details.map((detail) => (
-                    <span key={detail}>{detail}</span>
-                  ))}
+                <div className={styles.cardBody}>
+                  <div className={styles.cardTop}>
+                    <h3>{listing.title}</h3>
+                    <span className={styles.price}>{listing.price}</span>
+                  </div>
+                  <div className={styles.meta}>
+                    <span>{listing.location}</span>
+                    {listing.details.map((detail) => (
+                      <span key={detail}>{detail}</span>
+                    ))}
+                  </div>
+                  <p className={styles.description}>{listing.description}</p>
                 </div>
-                <p className={styles.description}>{listing.description}</p>
-              </div>
+              </Link>
             </article>
           ))}
         </div>
