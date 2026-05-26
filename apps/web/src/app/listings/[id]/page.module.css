@@ -1,0 +1,173 @@
+.shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 56px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.gallery {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  aspect-ratio: 16 / 10;
+}
+
+.gallery img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.summary,
+.notice {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.summary {
+  align-self: start;
+  padding: 20px;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: #e7f3ee;
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.summary h1 {
+  margin: 16px 0 12px;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.price {
+  display: block;
+  color: var(--brand);
+  font-size: 28px;
+}
+
+.summary p {
+  color: var(--muted);
+}
+
+.seller {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.seller span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.call {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  border-radius: 6px;
+  background: var(--brand);
+  color: white;
+  font-weight: 800;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.content article {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.content h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.content article p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.parameters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.parameters div {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.parameters dt {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.parameters dd {
+  margin: 6px 0 0;
+  font-weight: 800;
+}
+
+.notice {
+  align-self: start;
+  display: flex;
+  gap: 12px;
+  padding: 18px;
+}
+
+.notice p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .parameters {
+    grid-template-columns: 1fr;
+  }
+}
