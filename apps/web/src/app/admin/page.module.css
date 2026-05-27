@@ -52,6 +52,10 @@
   object-fit: cover;
 }
 
+.frozen img {
+  opacity: 0.5;
+}
+
 .top,
 .actions {
   display: flex;
@@ -97,6 +101,27 @@
   padding: 0 12px;
   background: white;
   font-weight: 800;
+}
+
+.actions a,
+.empty a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 12px;
+  background: white;
+  font-weight: 800;
+}
+
+.empty {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
 }
 
 @media (max-width: 780px) {

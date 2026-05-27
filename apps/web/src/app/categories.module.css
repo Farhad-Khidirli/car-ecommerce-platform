@@ -74,6 +74,12 @@
   background: white;
 }
 
+.priceRange {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
 .stats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -140,6 +146,10 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.frozen .imageWrap img {
+  opacity: 0.5;
 }
 
 .badge {

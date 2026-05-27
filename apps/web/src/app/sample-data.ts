@@ -36,7 +36,7 @@ export const categories: CategoryPage[] = [
     description:
       "A sample vehicle marketplace view with dealer-style cards, useful specs, and clear pricing.",
     icon: CarFront,
-    filters: ["Make", "Model", "Year from", "Price range"],
+    filters: ["Brand", "Model", "Year from", "Year up to", "Price range"],
     stats: [
       { label: "Active listings", value: "18,240" },
       { label: "Verified sellers", value: "1,120" },
@@ -57,8 +57,9 @@ export const categories: CategoryPage[] = [
         description: "Clean sedan with panoramic roof, service history, and fresh inspection.",
         details: ["2021", "39,000 km", "2.0L petrol"],
         parameters: [
-          { label: "Make", value: "Mercedes-Benz" },
+          { label: "Brand", value: "Mercedes-Benz" },
           { label: "Model", value: "C 300 AMG" },
+          { label: "Year", value: "2021" },
           { label: "Engine", value: "2.0L petrol" },
           { label: "Transmission", value: "Automatic" },
           { label: "Body", value: "Sedan" },
@@ -79,8 +80,9 @@ export const categories: CategoryPage[] = [
         description: "Family SUV with 4x4 package, leather interior, and parking cameras.",
         details: ["2019", "84,000 km", "Automatic"],
         parameters: [
-          { label: "Make", value: "Toyota" },
+          { label: "Brand", value: "Toyota" },
           { label: "Model", value: "Land Cruiser Prado" },
+          { label: "Year", value: "2019" },
           { label: "Drivetrain", value: "4x4" },
           { label: "Seats", value: "7" },
           { label: "Fuel", value: "Petrol" },
@@ -101,8 +103,9 @@ export const categories: CategoryPage[] = [
         description: "Weekend motorcycle with low mileage and tasteful accessories.",
         details: ["2022", "7,400 km", "1170 cc"],
         parameters: [
-          { label: "Make", value: "BMW" },
+          { label: "Brand", value: "BMW" },
           { label: "Model", value: "R nineT Pure" },
+          { label: "Year", value: "2022" },
           { label: "Engine", value: "1170 cc" },
           { label: "Mileage", value: "7,400 km" },
           { label: "Condition", value: "Excellent" },

@@ -1,6 +1,11 @@
 import { CategoryPageView } from "../category-page";
 import { getCategory } from "../sample-data";
 
-export default function VehiclesPage() {
-  return <CategoryPageView category={getCategory("vehicles")!} />;
+type VehiclesPageProps = {
+  searchParams: Promise<{ q?: string }>;
+};
+
+export default async function VehiclesPage({ searchParams }: VehiclesPageProps) {
+  const params = await searchParams;
+  return <CategoryPageView category={getCategory("vehicles")!} query={params.q ?? ""} />;
 }

@@ -27,7 +27,7 @@ public class ListingService {
 
     @Transactional(readOnly = true)
     public List<ListingResponse> publicListings() {
-        return listingRepository.findByStatusOrderByCreatedAtDesc(ListingStatus.PUBLISHED)
+        return listingRepository.findByStatusInOrderByCreatedAtDesc(List.of(ListingStatus.PUBLISHED, ListingStatus.FROZEN))
             .stream()
             .map(listing -> ListingResponse.from(listing, objectMapper))
             .toList();
@@ -36,7 +36,7 @@ public class ListingService {
     @Transactional(readOnly = true)
     public ListingResponse publicListing(UUID id) {
         Listing listing = listingRepository.findById(id)
-            .filter(item -> item.getStatus() == ListingStatus.PUBLISHED)
+            .filter(item -> item.getStatus() == ListingStatus.PUBLISHED || item.getStatus() == ListingStatus.FROZEN)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Listing not found"));
         return ListingResponse.from(listing, objectMapper);
     }
