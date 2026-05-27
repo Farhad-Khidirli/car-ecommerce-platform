@@ -57,7 +57,7 @@ public class AuthService {
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid login credentials");
         }
-        if (user.getStatus() != UserStatus.ACTIVE) {
+        if (user.getStatus() == UserStatus.SUSPENDED) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User is not active");
         }
         return issueToken(user);
