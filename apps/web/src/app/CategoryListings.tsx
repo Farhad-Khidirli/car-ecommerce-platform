@@ -69,6 +69,17 @@ export function CategoryListings({ category, initialQuery = "", allCategories = 
 
   const modelOptions = vehicleBrands.find((item) => item.brand === brand)?.models ?? [];
   const source = apiListings.filter((listing) => allCategories || listing.categoryKey === category?.slug);
+  const activeFilterCount = [query, brand, model, yearFrom, yearTo, priceMin, priceMax].filter(Boolean).length;
+
+  function resetFilters() {
+    setQuery("");
+    setBrand("");
+    setModel("");
+    setYearFrom("");
+    setYearTo("");
+    setPriceMin("");
+    setPriceMax("");
+  }
 
   const filtered = source.filter((listing) => {
     const item = listing.searchable;
@@ -102,33 +113,71 @@ export function CategoryListings({ category, initialQuery = "", allCategories = 
     <>
       {category?.slug === "vehicles" ? (
         <form className={styles.filters}>
-          <input aria-label="Search vehicles" onChange={(event) => setQuery(event.target.value)} placeholder="Search vehicles" value={query} />
-          <select aria-label="Brand" onChange={(event) => setBrand(event.target.value)} value={brand}>
-            <option value="">Brand</option>
-            {vehicleBrands.map((item) => (
-              <option key={item.brand} value={item.brand}>
-                {item.brand}
-              </option>
-            ))}
-          </select>
-          <select aria-label="Model" disabled={!brand} onChange={(event) => setModel(event.target.value)} value={model}>
-            <option value="">Model</option>
-            {modelOptions.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <input aria-label="Year from" onChange={(event) => setYearFrom(event.target.value)} type="date" value={yearFrom} />
-          <input aria-label="Year up to" onChange={(event) => setYearTo(event.target.value)} type="date" value={yearTo} />
+          <div className={styles.filterHeader}>
+            <strong>Find a vehicle</strong>
+            <button type="button" onClick={resetFilters} disabled={activeFilterCount === 0}>
+              Reset
+            </button>
+          </div>
+          <label className={styles.searchField}>
+            Search
+            <input aria-label="Search vehicles" onChange={(event) => setQuery(event.target.value)} placeholder="BMW, Prado, AMG..." value={query} />
+          </label>
+          <div className={styles.filterGrid}>
+            <label>
+              Brand
+              <select aria-label="Brand" onChange={(event) => { setBrand(event.target.value); setModel(""); }} value={brand}>
+                <option value="">Any brand</option>
+                {vehicleBrands.map((item) => (
+                  <option key={item.brand} value={item.brand}>
+                    {item.brand}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Model
+              <select aria-label="Model" disabled={!brand} onChange={(event) => setModel(event.target.value)} value={model}>
+                <option value="">Any model</option>
+                {modelOptions.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Year from
+              <input aria-label="Year from" onChange={(event) => setYearFrom(event.target.value)} type="date" value={yearFrom} />
+            </label>
+            <label>
+              Up to year
+              <input aria-label="Year up to" onChange={(event) => setYearTo(event.target.value)} type="date" value={yearTo} />
+            </label>
+          </div>
           <div className={styles.priceRange}>
-            <input aria-label="Minimum price" min="0" onChange={(event) => setPriceMin(event.target.value)} placeholder="Min price" type="number" value={priceMin} />
-            <input aria-label="Maximum price" min="0" onChange={(event) => setPriceMax(event.target.value)} placeholder="Max price" type="number" value={priceMax} />
+            <label>
+              Min price
+              <input aria-label="Minimum price" min="0" onChange={(event) => setPriceMin(event.target.value)} placeholder="0" type="number" value={priceMin} />
+            </label>
+            <label>
+              Max price
+              <input aria-label="Maximum price" min="0" onChange={(event) => setPriceMax(event.target.value)} placeholder="50000" type="number" value={priceMax} />
+            </label>
           </div>
         </form>
       ) : (
         <form className={styles.filters}>
-          <input aria-label="Search listings" onChange={(event) => setQuery(event.target.value)} placeholder="Search listings" value={query} />
+          <div className={styles.filterHeader}>
+            <strong>Find listings</strong>
+            <button type="button" onClick={resetFilters} disabled={activeFilterCount === 0}>
+              Reset
+            </button>
+          </div>
+          <label className={styles.searchField}>
+            Search
+            <input aria-label="Search listings" onChange={(event) => setQuery(event.target.value)} placeholder="Search listings" value={query} />
+          </label>
         </form>
       )}
 
@@ -163,6 +212,12 @@ export function CategoryListings({ category, initialQuery = "", allCategories = 
               </Link>
             </article>
           ))}
+          {filtered.length === 0 ? (
+            <div className={styles.noResults}>
+              <strong>No listings found</strong>
+              <p>Try a wider search or reset the filters.</p>
+            </div>
+          ) : null}
         </div>
       </section>
     </>

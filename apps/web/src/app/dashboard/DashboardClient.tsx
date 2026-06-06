@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Plus, Trash2 } from "lucide-react";
+import { CarFront, Home, Package, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createListing, deleteListing, getMyListings, type ListingPayload, type ListingResponse } from "../../lib/api";
 import { categoryLabels, formatPrice, vehicleBrands } from "../../lib/market";
@@ -25,6 +25,39 @@ const defaultForm: ListingPayload = {
     Location: "Baku"
   }
 };
+
+const categories = [
+  { key: "vehicles", label: "Vehicle", icon: CarFront },
+  { key: "real-estate", label: "Real estate", icon: Home },
+  { key: "goods", label: "Goods", icon: Package }
+];
+
+function parametersFor(categoryKey: string, current: Record<string, string> = {}): Record<string, string> {
+  if (categoryKey === "vehicles") {
+    return {
+      Brand: current.Brand || "BMW",
+      Model: current.Model || "X5",
+      Year: current.Year || "2021",
+      Mileage: current.Mileage || "",
+      Location: current.Location || "Baku"
+    };
+  }
+
+  if (categoryKey === "real-estate") {
+    return {
+      Location: current.Location || "Baku",
+      Rooms: current.Rooms || "",
+      Area: current.Area || "",
+      Floor: current.Floor || ""
+    };
+  }
+
+  return {
+    Location: current.Location || "Baku",
+    Brand: current.Brand || "",
+    Condition: current.Condition || "Used"
+  };
+}
 
 export function DashboardClient() {
   const [token, setToken] = useState<string | null>(null);
@@ -63,6 +96,14 @@ export function DashboardClient() {
   const selectedBrand = form.parameters.Brand ?? "";
   const models = vehicleBrands.find((item) => item.brand === selectedBrand)?.models ?? [];
 
+  function updateCategory(categoryKey: string) {
+    setForm({
+      ...form,
+      categoryKey,
+      parameters: parametersFor(categoryKey, form.parameters)
+    });
+  }
+
   return (
     <>
       <section className={styles.header}>
@@ -79,7 +120,11 @@ export function DashboardClient() {
           setMessage("");
           try {
             await createListing(token, form);
-            setForm(defaultForm);
+            setForm({
+              ...defaultForm,
+              contactName: form.contactName,
+              contactPhone: form.contactPhone
+            });
             await load(token);
             setMessage("Listing created.");
           } catch (error) {
@@ -91,43 +136,141 @@ export function DashboardClient() {
           <Plus size={18} />
           <strong>New listing</strong>
         </div>
-        <select value={form.categoryKey} onChange={(event) => setForm({ ...form, categoryKey: event.target.value })}>
-          <option value="vehicles">Vehicles</option>
-          <option value="real-estate">Real estate</option>
-          <option value="goods">Goods</option>
-        </select>
-        <input required placeholder="Title" value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} />
-        <textarea required placeholder="Description" value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} />
+        <div className={styles.segmented} aria-label="Choose listing category">
+          {categories.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button className={form.categoryKey === item.key ? styles.activeSegment : ""} key={item.key} type="button" onClick={() => updateCategory(item.key)}>
+                <Icon size={18} />
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className={styles.sectionTitle}>
+          <span>1</span>
+          <strong>Basics</strong>
+        </div>
         <div className={styles.formGrid}>
-          <input required min="0" placeholder="Price" type="number" value={form.priceAmount || ""} onChange={(event) => setForm({ ...form, priceAmount: Number(event.target.value) })} />
-          <input required maxLength={3} placeholder="Currency" value={form.priceCurrency} onChange={(event) => setForm({ ...form, priceCurrency: event.target.value.toUpperCase() })} />
-          <input required placeholder="Listing type" value={form.listingType} onChange={(event) => setForm({ ...form, listingType: event.target.value })} />
-          <input placeholder="Location" value={form.parameters.Location ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Location: event.target.value } })} />
+          <label>
+            Title
+            <input required placeholder="BMW X5, 3 room apartment, iPhone..." value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} />
+          </label>
+          <label>
+            Listing type
+            <select required value={form.listingType} onChange={(event) => setForm({ ...form, listingType: event.target.value })}>
+              <option value="SALE">For sale</option>
+              <option value="RENT">For rent</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          Description
+          <textarea required placeholder="Short, clear description for the buyer" value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} />
+        </label>
+
+        <div className={styles.sectionTitle}>
+          <span>2</span>
+          <strong>Price and details</strong>
+        </div>
+        <div className={styles.formGrid}>
+          <label>
+            Price
+            <input required min="0" placeholder="Price" type="number" value={form.priceAmount || ""} onChange={(event) => setForm({ ...form, priceAmount: Number(event.target.value) })} />
+          </label>
+          <label>
+            Currency
+            <input required maxLength={3} placeholder="AZN" value={form.priceCurrency} onChange={(event) => setForm({ ...form, priceCurrency: event.target.value.toUpperCase() })} />
+          </label>
+          <label>
+            Location
+            <input placeholder="Baku" value={form.parameters.Location ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Location: event.target.value } })} />
+          </label>
         </div>
         {form.categoryKey === "vehicles" ? (
           <div className={styles.formGrid}>
-            <select value={selectedBrand} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Brand: event.target.value, Model: "" } })}>
-              {vehicleBrands.map((item) => (
-                <option key={item.brand} value={item.brand}>
-                  {item.brand}
-                </option>
-              ))}
-            </select>
-            <select value={form.parameters.Model ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Model: event.target.value } })}>
-              {models.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-            <input placeholder="Manufacturing year" value={form.parameters.Year ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Year: event.target.value } })} />
-            <input placeholder="Mileage" value={form.parameters.Mileage ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Mileage: event.target.value } })} />
+            <label>
+              Brand
+              <select value={selectedBrand} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Brand: event.target.value, Model: "" } })}>
+                {vehicleBrands.map((item) => (
+                  <option key={item.brand} value={item.brand}>
+                    {item.brand}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Model
+              <select value={form.parameters.Model ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Model: event.target.value } })}>
+                {models.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Manufacturing year
+              <input placeholder="2021" value={form.parameters.Year ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Year: event.target.value } })} />
+            </label>
+            <label>
+              Mileage
+              <input placeholder="65000 km" value={form.parameters.Mileage ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Mileage: event.target.value } })} />
+            </label>
           </div>
         ) : null}
-        <input placeholder="Image URL" value={form.imageUrl} onChange={(event) => setForm({ ...form, imageUrl: event.target.value })} />
+        {form.categoryKey === "real-estate" ? (
+          <div className={styles.formGrid}>
+            <label>
+              Rooms
+              <input placeholder="3" value={form.parameters.Rooms ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Rooms: event.target.value } })} />
+            </label>
+            <label>
+              Area
+              <input placeholder="95 m2" value={form.parameters.Area ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Area: event.target.value } })} />
+            </label>
+            <label>
+              Floor
+              <input placeholder="7/16" value={form.parameters.Floor ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Floor: event.target.value } })} />
+            </label>
+          </div>
+        ) : null}
+        {form.categoryKey === "goods" ? (
+          <div className={styles.formGrid}>
+            <label>
+              Brand
+              <input placeholder="Apple, Samsung..." value={form.parameters.Brand ?? ""} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Brand: event.target.value } })} />
+            </label>
+            <label>
+              Condition
+              <select value={form.parameters.Condition ?? "Used"} onChange={(event) => setForm({ ...form, parameters: { ...form.parameters, Condition: event.target.value } })}>
+                <option value="New">New</option>
+                <option value="Used">Used</option>
+                <option value="Needs repair">Needs repair</option>
+              </select>
+            </label>
+          </div>
+        ) : null}
+
+        <div className={styles.sectionTitle}>
+          <span>3</span>
+          <strong>Photo and contact</strong>
+        </div>
+        <label>
+          Image URL
+          <input placeholder="https://..." value={form.imageUrl} onChange={(event) => setForm({ ...form, imageUrl: event.target.value })} />
+        </label>
+        {form.imageUrl ? <img className={styles.preview} alt="" src={form.imageUrl} /> : null}
         <div className={styles.formGrid}>
-          <input placeholder="Contact name" value={form.contactName} onChange={(event) => setForm({ ...form, contactName: event.target.value })} />
-          <input placeholder="Contact phone" value={form.contactPhone} onChange={(event) => setForm({ ...form, contactPhone: event.target.value })} />
+          <label>
+            Contact name
+            <input placeholder="Contact name" value={form.contactName} onChange={(event) => setForm({ ...form, contactName: event.target.value })} />
+          </label>
+          <label>
+            Contact phone
+            <input placeholder="+994..." value={form.contactPhone} onChange={(event) => setForm({ ...form, contactPhone: event.target.value })} />
+          </label>
         </div>
         <button type="submit">Create listing</button>
         {message ? <p className={styles.message}>{message}</p> : null}

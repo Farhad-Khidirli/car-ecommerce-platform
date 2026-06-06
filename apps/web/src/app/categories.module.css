@@ -64,6 +64,44 @@
   background: var(--surface);
 }
 
+.filterHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.filterHeader button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 11px;
+  background: white;
+  font-weight: 800;
+}
+
+.filterHeader button:disabled {
+  opacity: 0.5;
+}
+
+.filters label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.searchField {
+  grid-column: 1 / -1;
+}
+
 .filters input,
 .filters select {
   min-height: 44px;
@@ -208,6 +246,19 @@
   line-height: 1.5;
 }
 
+.noResults {
+  grid-column: 1 / -1;
+  padding: 18px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.noResults p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
@@ -215,6 +266,11 @@
 
   .stats,
   .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filterGrid,
+  .priceRange {
     grid-template-columns: 1fr;
   }
 
