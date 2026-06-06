@@ -1,5 +1,6 @@
 import { Building2, CarFront, PackageSearch } from "lucide-react";
 import Link from "next/link";
+import { AuthLinks } from "./AuthLinks";
 import styles from "./page.module.css";
 
 const sections = [
@@ -26,6 +27,13 @@ const sections = [
 export default function Home() {
   return (
     <main className={styles.shell}>
+      <nav className={styles.nav}>
+        <Link className={styles.brand} href="/">
+          Marketplace
+        </Link>
+        <AuthLinks />
+      </nav>
+
       <section className={styles.hero}>
         <div>
           <p className={styles.kicker}>Marketplace platform</p>
@@ -35,13 +43,13 @@ export default function Home() {
             moderation, and paid listing features.
           </p>
         </div>
-        <form className={styles.search}>
-          <input aria-label="Search listings" placeholder="Search listings" />
-          <select aria-label="Category">
-            <option>All categories</option>
-            <option>Vehicles</option>
-            <option>Real estate</option>
-            <option>Goods</option>
+        <form action="/search" className={styles.search}>
+          <input aria-label="Search listings" name="q" placeholder="Search listings" />
+          <select aria-label="Category" name="category" defaultValue="all">
+            <option value="all">All categories</option>
+            <option value="vehicles">Vehicles</option>
+            <option value="real-estate">Real estate</option>
+            <option value="goods">Goods</option>
           </select>
           <button type="submit">Search</button>
         </form>

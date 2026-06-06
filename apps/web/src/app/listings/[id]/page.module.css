@@ -35,6 +35,10 @@
   object-fit: cover;
 }
 
+.frozen img {
+  opacity: 0.5;
+}
+
 .summary,
 .notice {
   border: 1px solid var(--line);

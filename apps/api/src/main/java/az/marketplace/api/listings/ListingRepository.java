@@ -9,7 +9,11 @@ public interface ListingRepository extends JpaRepository<Listing, UUID> {
 
     List<Listing> findByStatusOrderByCreatedAtDesc(ListingStatus status);
 
+    List<Listing> findByStatusInOrderByCreatedAtDesc(List<ListingStatus> statuses);
+
     List<Listing> findBySellerIdOrderByCreatedAtDesc(UUID sellerId);
 
     Optional<Listing> findByIdAndSellerId(UUID id, UUID sellerId);
+
+    boolean existsByTitle(String title);
 }

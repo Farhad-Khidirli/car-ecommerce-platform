@@ -52,6 +52,19 @@
   object-fit: cover;
 }
 
+.frozenCard img {
+  opacity: 0.5;
+}
+
+.hiddenCard {
+  border-style: dashed;
+}
+
+.hiddenCard img {
+  filter: grayscale(1);
+  opacity: 0.38;
+}
+
 .top,
 .actions {
   display: flex;
@@ -77,6 +90,47 @@
   color: var(--brand);
 }
 
+.summary {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+
+.status {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: #f0f4f2;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.statusPublished {
+  background: #e7f8ee;
+  color: #166534;
+}
+
+.statusFrozen {
+  background: #e9f2ff;
+  color: #1d4ed8;
+}
+
+.statusHidden {
+  background: #fff1f2;
+  color: #be123c;
+}
+
+.actionError {
+  margin: 0;
+  border: 1px solid #fecdd3;
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: #fff1f2;
+  color: #be123c;
+  font-weight: 800;
+}
+
 .body textarea {
   width: 100%;
   min-height: 76px;
@@ -97,6 +151,32 @@
   padding: 0 12px;
   background: white;
   font-weight: 800;
+}
+
+.actions a,
+.empty a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 12px;
+  background: white;
+  font-weight: 800;
+}
+
+.actions button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.empty {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
 }
 
 @media (max-width: 780px) {
